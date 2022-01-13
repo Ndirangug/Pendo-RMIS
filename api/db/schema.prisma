@@ -10,7 +10,7 @@ generator client {
 
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 
-model Regugee {
+model Refugee {
   id          Int           @id @default(autoincrement())
   email       String?
   phone       String?
@@ -32,7 +32,7 @@ enum Sex {
 model Tent {
   id        Int       @id @default(autoincrement())
   code      String
-  refugees  Regugee[]
+  refugees  Refugee[]
   Section   Section?  @relation(fields: [sectionId], references: [id])
   sectionId Int?
 }
@@ -72,8 +72,8 @@ model Transaction {
   amount          Int
   transactionType TransactionType
   createdAt       DateTime        @default(now())
-  regugee         Regugee?        @relation(fields: [regugeeId], references: [id])
-  regugeeId       Int?
+  refugee         Refugee?        @relation(fields: [refugeeId], references: [id])
+  refugeeId       Int?
   admin           User?           @relation(fields: [adminId], references: [id])
   adminId         Int?
   Section         Section?        @relation(fields: [sectionId], references: [id])
