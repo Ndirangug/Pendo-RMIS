@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -9,10 +9,78 @@ generator client {
 }
 
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+
+model Regugee {
+  id          Int           @id @default(autoincrement())
+  email       String?
+  phone       String?
+  firstName   String
+  lastName    String
+  photo       String
+  sex         Sex
+  dateOfBirh  DateTime
+  Tent        Tent?         @relation(fields: [tentId], references: [id])
+  tentId      Int?
+  Transaction Transaction[]
+}
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+model Tent {
+  id        Int       @id @default(autoincrement())
+  code      String
+  refugees  Regugee[]
+  Section   Section?  @relation(fields: [sectionId], references: [id])
+  sectionId Int?
+}
+
+model Section {
+  id          Int           @id @default(autoincrement())
+  code        String
+  tens        Tent[]
+  admin       Admin         @relation(fields: [adminId], references: [id])
+  adminId     Int           @unique
+  Transaction Transaction[]
+}
+
+model Admin {
+  id                  Int           @id @default(autoincrement())
+  email               String        @unique
+  phone               String        @unique
+  firstName           String
+  lastName            String
+  photo               String
+  role                Role          @default(SECTION_ADMIN)
+  hashedPassword      String // <─┐
+  salt                String // <─┼─ add these lines
+  resetToken          String? // <─┤
+  resetTokenExpiresAt DateTime? //
+  section             Section?
+  Transaction         Transaction[]
+}
+
+enum Role {
+  CAMP_ADMIN
+  SECTION_ADMIN
+}
+
+model Transaction {
+  id              Int             @id @default(autoincrement())
+  amount          Int
+  transactionType TransactionType
+  createdAt       DateTime        @default(now())
+  regugee         Regugee?        @relation(fields: [regugeeId], references: [id])
+  regugeeId       Int?
+  Admin           Admin?          @relation(fields: [adminId], references: [id])
+  adminId         Int?
+  Section         Section?        @relation(fields: [sectionId], references: [id])
+  sectionId       Int?
+}
+
+enum TransactionType {
+  ADMIN_TO_SECTION
+  ADMIN_TO_INDIVIDUAL
 }
