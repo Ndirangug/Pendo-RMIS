@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jan 13 19:25:38 2022
+# Make data base, printed on Fri Jan 14 10:36:19 2022
 
 # Variables
 
@@ -63,7 +63,7 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-edcc02f2-62ad-43ff-817b-b49093927b79.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-31632826-0818-4e4e-83dd-38691c367d8a.sock
 # environment
 VSCODE_CWD = /home/georgen
 # environment
@@ -71,7 +71,7 @@ GOPROXY = https://proxy.golang.org,direct
 # environment
 QT_STYLE_OVERRIDE = adwaita
 # environment
-XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session1
+XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session0
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -79,7 +79,7 @@ PATH = /home/georgen/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bi
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/georgen-HP-Notebook:@/tmp/.ICE-unix/22555,unix/georgen-HP-Notebook:/tmp/.ICE-unix/22555
+SESSION_MANAGER = local/georgen-HP-Notebook:@/tmp/.ICE-unix/2981,unix/georgen-HP-Notebook:/tmp/.ICE-unix/2981
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -111,7 +111,7 @@ QT_QPA_PLATFORMTHEME = gtk2
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 22682
+SSH_AGENT_PID = 3120
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = XFCE
 # environment
@@ -145,7 +145,7 @@ QT_DEVICE_PIXEL_RATIO = auto
 # environment
 SHLVL = 0
 # environment
-XDG_SESSION_ID = c7
+XDG_SESSION_ID = c2
 # environment
 USER = georgen
 # environment
@@ -213,7 +213,7 @@ LANG = C
 # environment
 PT7HOME = /opt/pt
 # environment
-VSCODE_PID = 23247
+VSCODE_PID = 3634
 # variable set hash-table stats:
 # Load=101/1024=10%, Rehash=0, Collisions=9/123=7%
 
@@ -282,6 +282,6 @@ GNUmakefile:
 # hash-table stats:
 # Load=31/8192=0%, Rehash=0, Collisions=1/34=3%
  
-# Finished Make data base on Thu Jan 13 19:25:38 2022
+# Finished Make data base on Fri Jan 14 10:36:19 2022
 
  
