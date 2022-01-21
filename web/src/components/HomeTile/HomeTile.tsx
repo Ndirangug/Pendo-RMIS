@@ -1,4 +1,3 @@
-import { Button } from '@mui/material'
 import { Link } from '@redwoodjs/router'
 
 const HomeTile = ({ label, route, icon }) => {

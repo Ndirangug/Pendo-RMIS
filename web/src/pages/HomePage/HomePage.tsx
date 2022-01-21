@@ -19,19 +19,15 @@ const HomePage = () => {
           <Stack direction="row" spacing={3}>
             <HomeTile
               label="Register Refugee"
-              route={routes.resetPassword}
+              route={routes.newRefugee}
               icon=""
             />
 
-            <HomeTile
-              label="View Refugee"
-              route={routes.resetPassword}
-              icon=""
-            />
+            <HomeTile label="View Refugee" route={routes.allRefugees} icon="" />
 
-            <HomeTile label="Funds" route={routes.resetPassword} icon="" />
+            <HomeTile label="Funds" route={routes.funds} icon="" />
 
-            <HomeTile label="Events" route={routes.resetPassword} icon="" />
+            <HomeTile label="Events" route={routes.events} icon="" />
           </Stack>
         </Container>
       </Box>
