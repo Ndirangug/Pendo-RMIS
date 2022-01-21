@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { Link, navigate, routes } from '@redwoodjs/router'
-import { useRef } from 'react'
-import { Form, PasswordField, Submit, FieldError } from '@redwoodjs/forms'
+import { navigate, routes } from '@redwoodjs/router'
+
 import { useAuth } from '@redwoodjs/auth'
 import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 import { useEffect } from 'react'
-import { Box, Button, InputAdornment, styled, TextField } from '@mui/material'
+import { Box, InputAdornment } from '@mui/material'
 import TopRightCurve from '../../../public/res/svgs/left_corner.svg'
 import Circles from '../../../public/res/svgs/circles.svg'
 import { Person, Password } from '@mui/icons-material'
@@ -86,7 +85,9 @@ const LoginPage = () => {
             justifyContent: 'center',
           }}
         >
-          <h1 className="text-white text-5xl font-bold">Pendo Refugee Camp</h1>
+          <h1 className="text-white text-center text-5xl font-bold">
+            Pendo Refugee Camp
+          </h1>
           <p className="text-white text-base font-semibold my-5">ADMIN LOGIN</p>
 
           <Box
