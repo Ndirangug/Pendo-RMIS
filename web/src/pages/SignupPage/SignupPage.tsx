@@ -98,8 +98,90 @@ const SignupPage = () => {
                   />
                   <FieldError name="password" className="rw-field-error" />
 
+                  <Label
+                    name="firstName"
+                    className="rw-label"
+                    errorClassName="rw-label rw-label-error"
+                  >
+                    firstname
+                  </Label>
+                  <TextField
+                    name="firstName"
+                    className="rw-input"
+                    errorClassName="rw-input rw-input-error"
+                    validation={{
+                      required: {
+                        value: true,
+                        message: 'FirstName is required',
+                      },
+                    }}
+                  />
+                  <FieldError name="firstName" className="rw-field-error" />
+
+                  <Label
+                    name="lastName"
+                    className="rw-label"
+                    errorClassName="rw-label rw-label-error"
+                  >
+                    Last Name
+                  </Label>
+                  <TextField
+                    name="lastName"
+                    className="rw-input"
+                    errorClassName="rw-input rw-input-error"
+                    validation={{
+                      required: {
+                        value: true,
+                        message: 'lastName is required',
+                      },
+                    }}
+                  />
+                  <FieldError name="lastName" className="rw-field-error" />
+
+                  <Label
+                    name="phone"
+                    className="rw-label"
+                    errorClassName="rw-label rw-label-error"
+                  >
+                    phone
+                  </Label>
+                  <TextField
+                    name="phone"
+                    className="rw-input"
+                    errorClassName="rw-input rw-input-error"
+                    validation={{
+                      required: {
+                        value: true,
+                        message: 'phone is required',
+                      },
+                    }}
+                  />
+                  <FieldError name="phone" className="rw-field-error" />
+
+                  <Label
+                    name="photo"
+                    className="rw-label"
+                    errorClassName="rw-label rw-label-error"
+                  >
+                    photo
+                  </Label>
+                  <TextField
+                    name="photo"
+                    className="rw-input"
+                    errorClassName="rw-input rw-input-error"
+                    validation={{
+                      required: {
+                        value: true,
+                        message: 'photo is required',
+                      },
+                    }}
+                  />
+                  <FieldError name="photo" className="rw-field-error" />
+
                   <div className="rw-button-group">
-                    <Submit className="rw-button rw-button-blue">Sign Up</Submit>
+                    <Submit className="rw-button rw-button-blue">
+                      Sign Up
+                    </Submit>
                   </div>
                 </Form>
               </div>
