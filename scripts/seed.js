@@ -1,39 +1,64 @@
-import { db } from 'api/src/lib/db'
+import { PrismaClient } from '@prisma/client'
+import faker from '@faker-js/faker'
 
-export default async () => {
-  try {
-    //
-    // Manually seed via `yarn rw prisma db seed`
-    // Seeds automatically with `yarn rw prisma migrate dev` and `yarn rw prisma migrate reset`
-    //
-    // Update "const data = []" to match your data model and seeding needs
-    //
-    const data = [
-      // To try this example data with the UserExample model in schema.prisma,
-      // uncomment the lines below and run 'yarn rw prisma migrate dev'
-      //
-      // { name: 'alice', email: 'alice@example.com' },
-      // { name: 'mark', email: 'mark@example.com' },
-      // { name: 'jackie', email: 'jackie@example.com' },
-      // { name: 'bob', email: 'bob@example.com' },
-    ]
-    console.log(
-      "\nUsing the default './scripts/seed.{js,ts}' template\nEdit the file to add seed data\n"
-    )
+const prisma = new PrismaClient()
 
-    // Note: if using PostgreSQL, using `createMany` to insert multiple records is much faster
-    // @see: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
-    Promise.all(
-      //
-      // Change to match your data model and seeding needs
-      //
-      data.map(async (data) => {
-        const record = await db.userExample.create({ data })
-        console.log(record)
-      })
-    )
-  } catch (error) {
-    console.warn('Please define your seed data.')
-    console.error(error)
+async function main() {
+  await prisma.section.createMany({
+    data: [
+      { adminId: 2, code: 'A' },
+      { adminId: 3, code: 'B' },
+      { adminId: 4, code: 'C ' },
+      { adminId: 5, code: 'D' },
+    ],
+    skipDuplicates: true,
+  })
+
+  for (let i = 1; i <= 100; i++) {
+    await prisma.tent.create({
+      data: {
+        code: 'TG-' + i,
+        Section: { connect: { id: Math.floor(Math.random() * 4) + 1 } },
+      },
+    })
+  }
+
+  for (let i = 1; i <= 500; i++) {
+    await prisma.refugee.create({
+      data: {
+        dateOfBirh: faker.date.past(),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        photo: faker.image.avatar(),
+        sex: faker.helpers.randomize(['FEMALE', 'MALE']),
+        email: faker.internet.email(),
+        phone: faker.phone.phoneNumber(),
+        Tent: { connect: { id: Math.floor(Math.random() * 100) + 1 } },
+      },
+    })
+  }
+
+  for (let i = 0; i < 1000; i++) {
+    await prisma.transaction.create({
+      data: {
+        amount: faker.random.number({ min: 1, max: 100 }),
+        transactionType: faker.helpers.randomize([
+          'ADMIN_TO_SECTION',
+          'ADMIN_TO_INDIVIDUAL',
+        ]),
+        Section: { connect: { id: Math.floor(Math.random() * 4) + 1 } },
+        admin: { connect: { id: Math.floor(Math.random() * 5) + 1 } },
+        refugee: { connect: { id: Math.floor(Math.random() * 500) + 1 } },
+      },
+    })
   }
 }
+
+main()
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })
