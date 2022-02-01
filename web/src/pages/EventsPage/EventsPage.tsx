@@ -1,19 +1,16 @@
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
+import { ArrowBack } from '@mui/icons-material'
+import PageHeader from 'src/components/PageHeader/PageHeader'
 
 const EventsPage = () => {
   return (
     <>
       <MetaTags title="Events" description="Events page" />
 
-      <h1>EventsPage</h1>
-      <p>
-        Find me in <code>./web/src/pages/EventsPage/EventsPage.tsx</code>
-      </p>
-      <p>
-        My default route is named <code>events</code>, link to me with `
-        <Link to={routes.events()}>Events</Link>`
-      </p>
+      <PageHeader title="Events" />
+
+      <article className="page-content"></article>
     </>
   )
 }

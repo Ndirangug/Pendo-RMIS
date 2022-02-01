@@ -1,19 +1,18 @@
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
+import NewRefugeeForm from 'src/components/NewRefugeeForm/NewRefugeeForm'
+import PageHeader from 'src/components/PageHeader/PageHeader'
 
 const NewRefugeePage = () => {
   return (
     <>
       <MetaTags title="NewRefugee" description="NewRefugee page" />
 
-      <h1>NewRefugeePage</h1>
-      <p>
-        Find me in <code>./web/src/pages/NewRefugeePage/NewRefugeePage.tsx</code>
-      </p>
-      <p>
-        My default route is named <code>newRefugee</code>, link to me with `
-        <Link to={routes.newRefugee()}>NewRefugee</Link>`
-      </p>
+      <PageHeader title="New Refugee" />
+
+      <article className="page-content">
+        <NewRefugeeForm/>
+      </article>
     </>
   )
 }

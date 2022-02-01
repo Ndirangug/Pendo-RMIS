@@ -17,8 +17,9 @@ model Refugee {
   firstName   String
   lastName    String
   photo       String
+  createdAt   DateTime      @default(now())
   sex         Sex
-  dateOfBirh  DateTime
+  dateOfBirth DateTime      @default(now())
   Tent        Tent?         @relation(fields: [tentId], references: [id])
   tentId      Int?
   Transaction Transaction[]

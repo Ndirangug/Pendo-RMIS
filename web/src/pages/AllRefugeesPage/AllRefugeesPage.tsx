@@ -1,19 +1,19 @@
+import { ArrowBack } from '@mui/icons-material'
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
+import PageHeader from 'src/components/PageHeader/PageHeader'
+import RefugeesCell from 'src/components/RefugeesCell/RefugeesCell'
 
 const AllRefugeesPage = () => {
   return (
     <>
       <MetaTags title="AllRefugees" description="AllRefugees page" />
 
-      <h1>AllRefugeesPage</h1>
-      <p>
-        Find me in <code>./web/src/pages/AllRefugeesPage/AllRefugeesPage.tsx</code>
-      </p>
-      <p>
-        My default route is named <code>allRefugees</code>, link to me with `
-        <Link to={routes.allRefugees()}>AllRefugees</Link>`
-      </p>
+      <PageHeader title="All Refugees" />
+
+      <article className="page-content">
+        <RefugeesCell />
+      </article>
     </>
   )
 }

@@ -7,8 +7,9 @@ export const schema = gql`
     lastName: String!
     photo: String!
     sex: Sex!
-    dateOfBirh: DateTime!
+    dateOfBirth: DateTime!
     Tent: Tent
+    createdAt: DateTime!
     tentId: Int
     Transaction: [Transaction]!
   }
@@ -30,7 +31,7 @@ export const schema = gql`
     lastName: String!
     photo: String!
     sex: Sex!
-    dateOfBirh: DateTime!
+    dateOfBirth: DateTime!
     tentId: Int
   }
 
@@ -41,12 +42,12 @@ export const schema = gql`
     lastName: String
     photo: String
     sex: Sex
-    dateOfBirh: DateTime
+    dateOfBirth: DateTime
     tentId: Int
   }
 
   type Mutation {
-    createRefugee(input: CreateRefugeeInput!): Refugee! @requireAuth
+    createRefugee(input: CreateRefugeeInput!): Refugee! @skipAuth #@requireAuth
     updateRefugee(id: Int!, input: UpdateRefugeeInput!): Refugee! @requireAuth
     deleteRefugee(id: Int!): Refugee! @requireAuth
   }

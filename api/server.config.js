@@ -18,6 +18,15 @@ const config = {
   logger: {
     level: process.env.NODE_ENV === 'development' ? 'debug' : 'warn',
   },
+  listen:
+    (3000,
+    '0.0.0.0',
+    (err, address) => {
+      if (err) {
+        console.log.error(err)
+        process.exit(1)
+      }
+    }),
 }
 
 module.exports = config
