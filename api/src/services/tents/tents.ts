@@ -3,8 +3,24 @@ import type { ResolverArgs } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 
-export const tents = () => {
-  return db.tent.findMany()
+interface QueryTentArgs {
+  occupied: boolean
+}
+
+export const tents = ({ occupied }: QueryTentArgs) => {
+  let tents
+
+  switch (occupied) {
+    case true:
+      tents = db.tent.findMany()
+      break
+    case false:
+      tents = db.tent.findMany()
+      break
+    default:
+      tents = db.tent.findMany()
+  }
+  return tents
 }
 
 export const tent = ({ id }: Prisma.TentWhereUniqueInput) => {

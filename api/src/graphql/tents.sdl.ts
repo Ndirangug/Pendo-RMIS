@@ -8,7 +8,7 @@ export const schema = gql`
   }
 
   type Query {
-    tents: [Tent!]! @requireAuth
+    tents(occupied: Boolean): [Tent!]! @requireAuth
     tent(id: Int!): Tent @requireAuth
   }
 

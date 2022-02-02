@@ -13,6 +13,8 @@ export const QUERY = gql`
       createdAt
       sex
       Tent {
+        id
+        code
         Section {
           code
           id

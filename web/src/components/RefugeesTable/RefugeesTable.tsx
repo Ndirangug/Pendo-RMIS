@@ -2,11 +2,12 @@
 import { DataGrid } from '@mui/x-data-grid'
 import type { RefugeesQuery } from 'types/graphql'
 import type { CellSuccessProps } from '@redwoodjs/web'
+import { Card } from '@mui/material'
 
 const RefugeesTable = ({ refugees }: CellSuccessProps<RefugeesQuery>) => {
   const columns = [
-    { field: 'name', headerName: 'NAME', width: 130 },
-    { field: 'dateOfBirth', headerName: 'Date of Birth', width: 130 },
+    { field: 'name', headerName: 'NAME', width: 280 },
+    { field: 'dateOfBirth', headerName: 'Date of Birth', width: 250 },
     {
       field: 'sex',
       headerName: 'SEX',
@@ -15,9 +16,14 @@ const RefugeesTable = ({ refugees }: CellSuccessProps<RefugeesQuery>) => {
     {
       field: 'section',
       headerName: 'SECTION',
-      width: 160,
+      width: 120,
     },
-    { field: 'dateRegistered', headerName: 'Date Registered', width: 130 },
+    {
+      field: 'tent',
+      headerName: 'TENT',
+      width: 120,
+    },
+    { field: 'dateRegistered', headerName: 'Date Registered', width: 250 },
   ]
 
   const rows = refugees.map((refugee) => ({
@@ -26,10 +32,21 @@ const RefugeesTable = ({ refugees }: CellSuccessProps<RefugeesQuery>) => {
     dateOfBirth: refugee.dateOfBirth,
     sex: refugee.sex,
     section: refugee.Tent.Section.code,
+    tent: refugee.Tent.code,
     dateRegistered: refugee.createdAt,
+
   }))
 
-  return <DataGrid rows={rows} columns={columns} checkboxSelection />
+  return (
+    <Card>
+      <DataGrid
+        rowsPerPageOptions={[15]}
+        autoHeight
+        rows={rows}
+        columns={columns}
+      />
+    </Card>
+  )
 }
 
 export default RefugeesTable

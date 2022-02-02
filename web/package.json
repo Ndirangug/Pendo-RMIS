@@ -15,6 +15,7 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@mui/icons-material": "^5.3.0",
+    "@mui/lab": "^5.0.0-alpha.67",
     "@mui/material": "^5.4.0",
     "@mui/x-data-grid": "^5.4.0",
     "@redwoodjs/auth": "0.41.0",

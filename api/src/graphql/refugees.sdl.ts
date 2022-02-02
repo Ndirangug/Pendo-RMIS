@@ -20,8 +20,8 @@ export const schema = gql`
   }
 
   type Query {
-    refugees: [Refugee!]! @requireAuth
-    refugee(id: Int!): Refugee @requireAuth
+    refugees: [Refugee!]! @skipAuth #@requireAuth
+    refugee(id: Int!): Refugee @skipAuth #@requireAuth
   }
 
   input CreateRefugeeInput {

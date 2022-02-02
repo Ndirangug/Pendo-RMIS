@@ -11,7 +11,7 @@ const AllRefugeesPage = () => {
 
       <PageHeader title="All Refugees" />
 
-      <article className="page-content">
+      <article className="page-content mt-10">
         <RefugeesCell />
       </article>
     </>
