@@ -2,6 +2,7 @@ import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { ArrowBack } from '@mui/icons-material'
 import PageHeader from 'src/components/PageHeader/PageHeader'
+import DisburseFundsContainer from 'src/components/DisburseFundsContainer/DisburseFundsContainer'
 
 const FundsPage = () => {
   return (
@@ -10,7 +11,9 @@ const FundsPage = () => {
 
       <PageHeader title="Disburse Funds" />
 
-      <article className="page-content"></article>
+      <article className="page-content">
+        <DisburseFundsContainer/>
+      </article>
     </>
   )
 }

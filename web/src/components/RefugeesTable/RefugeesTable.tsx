@@ -34,7 +34,6 @@ const RefugeesTable = ({ refugees }: CellSuccessProps<RefugeesQuery>) => {
     section: refugee.Tent.Section.code,
     tent: refugee.Tent.code,
     dateRegistered: refugee.createdAt,
-
   }))
 
   return (

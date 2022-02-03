@@ -46,3 +46,7 @@ export const Refugee = {
   Transaction: (_obj, { root }: ResolverArgs<ReturnType<typeof refugee>>) =>
     db.refugee.findUnique({ where: { id: root.id } }).Transaction(),
 }
+
+export const refugeesInSection = ({ sectionId }: { sectionId: number }) => {
+  return db.refugee.findMany({ where: { Tent: { sectionId: sectionId } } })
+}

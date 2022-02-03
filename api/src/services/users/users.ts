@@ -46,3 +46,30 @@ export const User = {
   Transaction: (_obj, { root }: ResolverArgs<ReturnType<typeof user>>) =>
     db.user.findUnique({ where: { id: root.id } }).Transaction(),
 }
+
+// export const eligibleRecepients = async ({
+//   adminId,
+// }: ElibibleRecepientsArgs) => {
+//   const user = await db.user.findFirst({ where: { id: adminId } })
+
+//   let recepients = []
+
+//   if (user.role == 'CAMP_ADMIN') {
+//     recepients = await db.user.findMany({ where: { role: 'SECTION_ADMIN' } })
+//   } else {
+//     recepients = await (
+//       await db.user
+//         .findFirst({ where: { id: adminId } })
+//         .section()
+//         .tens()
+//     ).map((tent) => {
+//       return db.refugee.findMany({ where: { id: tent.id } })
+//     })
+//   }
+
+//   return recepients
+// }
+
+export const sectionAdmins = () => {
+  return db.user.findMany({ where: { role: 'SECTION_ADMIN' } })
+}

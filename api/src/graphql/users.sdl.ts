@@ -20,9 +20,13 @@ export const schema = gql`
     SECTION_ADMIN
   }
 
+  union TransactionRecepient = User | Refugee
+
   type Query {
-    users: [User!]! @requireAuth
-    user(id: Int!): User @requireAuth
+    users: [User!]! @skipAuth
+    user(id: Int!): User @skipAuth
+    # eligibleRecepients(adminId: Int!): [TransactionRecepient!] @skipAuth
+    sectionAdmins: [User!]! @skipAuth
   }
 
   input CreateUserInput {
