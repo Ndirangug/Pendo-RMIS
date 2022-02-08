@@ -3,8 +3,28 @@ import type { ResolverArgs } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 
-export const transactions = () => {
-  return db.transaction.findMany()
+interface QueryTransactionsInput {
+  adminId?: number
+  refugeeId?: number
+}
+
+export const transactions = ({
+  adminId,
+  refugeeId,
+}: QueryTransactionsInput) => {
+  if (adminId !== undefined && adminId !== null) {
+    console.log('filter with admin')
+    return db.transaction.findMany({
+      where: { adminId },
+    })
+  } else if (refugeeId !== undefined && refugeeId !== null) {
+    console.log('getting with refugees')
+    return db.transaction.findMany({
+      where: { refugeeId },
+    })
+  } else {
+    return db.transaction.findMany()
+  }
 }
 
 export const transaction = ({ id }: Prisma.TransactionWhereUniqueInput) => {
@@ -13,11 +33,52 @@ export const transaction = ({ id }: Prisma.TransactionWhereUniqueInput) => {
   })
 }
 
-interface CreateTransactionArgs {
-  input: Prisma.TransactionCreateInput
+interface CreateTransactionInput extends Prisma.TransactionCreateInput {
+  adminId?: number
+  sectionId?: number
+  refugeeId?: number
 }
 
-export const createTransaction = ({ input }: CreateTransactionArgs) => {
+interface CreateTransactionArgs {
+  input: CreateTransactionInput
+}
+
+export const createTransaction = async ({ input }: CreateTransactionArgs) => {
+  if (input.transactionType == 'ADMIN_TO_INDIVIDUAL') {
+    //just subtarct from adminId
+    const adminSending = await db.user.update({
+      where: { id: input.adminId },
+      data: {
+        accountBalance: {
+          decrement: input.amount,
+        },
+      },
+    })
+  } else {
+    //subtratc from adminId
+    const adminSending = await db.user.update({
+      where: { id: input.adminId },
+      data: {
+        accountBalance: {
+          decrement: input.amount,
+        },
+      },
+    })
+    //then  get admin of sectionId and add to him
+    const adminReceiving = await db.section
+      .findFirst({ where: { id: input.sectionId } })
+      .admin()
+
+    await db.user.update({
+      where: { id: adminReceiving.id },
+      data: {
+        accountBalance: {
+          increment: input.amount,
+        },
+      },
+    })
+  }
+
   return db.transaction.create({
     data: input,
   })

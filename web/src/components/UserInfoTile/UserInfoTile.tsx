@@ -1,8 +1,11 @@
 import { Button, Menu, MenuItem } from '@mui/material'
 import { useAuth } from '@redwoodjs/auth'
 import { Person, KeyboardArrowDown } from '@mui/icons-material'
+import React, { useState } from 'react'
+import CurrentUserCell from 'src/components/CurrentUserCell/CurrentUserCell'
 
-const UserInfoTile = ({ user }) => {
+const UserInfoTile = () => {
+  const [user, setUser] = useState({})
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -12,10 +15,12 @@ const UserInfoTile = ({ user }) => {
     setAnchorEl(null)
   }
 
-  const { logOut } = useAuth()
+  const { currentUser, logOut } = useAuth()
 
   return (
     <div>
+      <CurrentUserCell id={currentUser.id} setUser={setUser} />
+
       <Button
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
@@ -25,7 +30,9 @@ const UserInfoTile = ({ user }) => {
       >
         <div className="flex justify-between items-center">
           <Person fontSize="large" />
-          <p className="capitalize">{user.firstName}</p>
+          <p className="capitalize">
+            {user.firstName} {user.lastName}
+          </p>
           <KeyboardArrowDown />
         </div>
       </Button>

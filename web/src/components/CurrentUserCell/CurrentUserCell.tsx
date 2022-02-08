@@ -8,6 +8,7 @@ export const QUERY = gql`
       firstName
       lastName
       role
+      accountBalance
       section {
         id
       }
@@ -26,7 +27,12 @@ export const Failure = ({ error }: CellFailureProps) => (
 export const Success = ({
   user,
   setUser,
+  setBalance,
 }: CellSuccessProps<FindCurrentUserQuery>) => {
   setUser(user)
+
+  if (typeof setBalance === 'function') {
+    setBalance(user.accountBalance)
+  }
   return <></>
 }

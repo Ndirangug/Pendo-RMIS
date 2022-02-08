@@ -1,5 +1,7 @@
 import { Card, Box, Typography, Tabs, Tab } from '@mui/material'
 import DisburseFundsForm from '../DisburseFundsForm/DisburseFundsForm'
+import TransactionsCell from 'src/components/TransactionsCell/TransactionsCell'
+import { useAuth } from '@redwoodjs/auth'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -39,6 +41,7 @@ function a11yProps(index) {
 
 const DisburseFundsContainer = () => {
   const [value, setValue] = React.useState(0)
+  const { currentUser } = useAuth()
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -63,7 +66,7 @@ const DisburseFundsContainer = () => {
           <DisburseFundsForm />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <TransactionsCell adminId={currentUser.id} />
         </TabPanel>
       </Box>
     </Card>

@@ -3,6 +3,7 @@ import Circles from 'public/res/svgs/circles2.svg'
 import Dots from 'public/res/svgs/dotted_group.svg'
 import { Link } from '@redwoodjs/router'
 import { ArrowBack } from '@mui/icons-material'
+import UserInfoTile from 'src/components/UserInfoTile/UserInfoTile'
 
 type MainLayoutProps = {
   children?: React.ReactNode
@@ -11,6 +12,9 @@ type MainLayoutProps = {
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <>
+      <div className="user-info absolute top-0 right-0 z-10">
+        <UserInfoTile />
+      </div>
       <Box
         sx={{
           backgroundColor: 'primary.background',

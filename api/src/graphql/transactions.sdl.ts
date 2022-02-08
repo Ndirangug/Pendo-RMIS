@@ -18,8 +18,8 @@ export const schema = gql`
   }
 
   type Query {
-    transactions: [Transaction!]! @requireAuth
-    transaction(id: Int!): Transaction @requireAuth
+    transactions(adminId: Int, refugeeId: Int): [Transaction!]! @skipAuth #@requireAuth
+    transaction(id: Int!): Transaction @skipAuth #@requireAuth
   }
 
   input CreateTransactionInput {
@@ -39,7 +39,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createTransaction(input: CreateTransactionInput!): Transaction! @requireAuth
+    createTransaction(input: CreateTransactionInput!): Transaction! @skipAuth #@requireAuth
     updateTransaction(id: Int!, input: UpdateTransactionInput!): Transaction!
       @requireAuth
     deleteTransaction(id: Int!): Transaction! @requireAuth

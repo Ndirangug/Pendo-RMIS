@@ -7,6 +7,7 @@ export const schema = gql`
     lastName: String!
     photo: String!
     role: Role!
+    accountBalance: Float!
     hashedPassword: String!
     salt: String!
     resetToken: String
@@ -36,6 +37,7 @@ export const schema = gql`
     lastName: String!
     photo: String!
     role: Role!
+    accountBalance: Float
     hashedPassword: String!
     salt: String!
     resetToken: String
@@ -49,6 +51,7 @@ export const schema = gql`
     lastName: String
     photo: String
     role: Role
+    accountBalance: Float
     hashedPassword: String
     salt: String
     resetToken: String
@@ -57,7 +60,7 @@ export const schema = gql`
 
   type Mutation {
     createUser(input: CreateUserInput!): User! @requireAuth
-    updateUser(id: Int!, input: UpdateUserInput!): User! @requireAuth
+    updateUser(id: Int!, input: UpdateUserInput!): User! @skipAuth #@requireAuth
     deleteUser(id: Int!): User! @requireAuth
   }
 `

@@ -26,7 +26,7 @@ const HomePage = () => {
         </Box> */}
         <Box>
           <div className="user-info absolute top-0 right-0">
-            <UserInfoTile user={{ firstName: 'George' }} />
+            <UserInfoTile />
           </div>
 
           <Box

@@ -17,4 +17,16 @@ export const CREATE_REFUGEE = gql`
     }
   }
 `
+
+export const CREATE_TRANSACTION = gql`
+  mutation CreateTransactionMutation(
+    $createTransactionInput: CreateTransactionInput!
+  ) {
+    createTransaction(input: $createTransactionInput) {
+      id
+      amount
+      transactionType
+    }
+  }
+`
 // ...

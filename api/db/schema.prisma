@@ -54,6 +54,7 @@ model User {
   firstName           String
   lastName            String
   photo               String
+  accountBalance      Float         @default(0)
   role                Role          @default(SECTION_ADMIN)
   hashedPassword      String // <─┐
   salt                String // <─┼─ add these lines
