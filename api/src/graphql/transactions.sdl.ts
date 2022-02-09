@@ -10,6 +10,7 @@ export const schema = gql`
     adminId: Int
     Section: Section
     sectionId: Int
+    ref: String
   }
 
   enum TransactionType {

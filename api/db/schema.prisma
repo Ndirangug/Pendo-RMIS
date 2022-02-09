@@ -80,6 +80,7 @@ model Transaction {
   adminId         Int?
   Section         Section?        @relation(fields: [sectionId], references: [id])
   sectionId       Int?
+  ref             String          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 }
 
 enum TransactionType {

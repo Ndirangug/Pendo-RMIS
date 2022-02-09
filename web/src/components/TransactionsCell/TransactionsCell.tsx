@@ -29,6 +29,7 @@ export const QUERY = gql`
       transactionType
       amount
       createdAt
+      ref
     }
   }
 `
@@ -41,12 +42,21 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div style={{ color: 'red' }}>Error: {error.message}</div>
 )
 
+interface TransactionsCellSuccesseProps
+  extends CellSuccessProps<TransactionsQuery> {
+  showFromAndTo: boolean
+}
+
 export const Success = ({
   transactions,
-}: CellSuccessProps<TransactionsQuery>) => {
+  showFromAndTo = true,
+}: TransactionsCellSuccesseProps) => {
   return (
     <Box sx={{ width: '100%' }}>
-      <TransactionsTable transactions={transactions} />
+      <TransactionsTable
+        showFromAndTo={showFromAndTo}
+        transactions={transactions}
+      />
     </Box>
   )
 }
