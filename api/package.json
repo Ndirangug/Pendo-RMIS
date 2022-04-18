@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@redwoodjs/api": "0.41.0",
-    "@redwoodjs/graphql-server": "0.41.0"
+    "@redwoodjs/graphql-server": "0.41.0",
+    "mpesa-api": "^3.0.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.0.0-alpha.3",

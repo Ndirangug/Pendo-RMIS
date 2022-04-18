@@ -2,6 +2,7 @@ import type { Prisma } from '@prisma/client'
 import type { ResolverArgs } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
+import { stkPush } from 'src/lib/mpesa'
 
 interface QueryTransactionsInput {
   adminId?: number
@@ -55,6 +56,7 @@ export const createTransaction = async ({ input }: CreateTransactionArgs) => {
       },
     })
   } else {
+    // admijn to section
     //subtratc from adminId
     const adminSending = await db.user.update({
       where: { id: input.adminId },
@@ -64,12 +66,13 @@ export const createTransaction = async ({ input }: CreateTransactionArgs) => {
         },
       },
     })
+
     //then  get admin of sectionId and add to him
     const adminReceiving = await db.section
       .findFirst({ where: { id: input.sectionId } })
       .admin()
 
-    await db.user.update({
+    const receivingUser = await db.user.update({
       where: { id: adminReceiving.id },
       data: {
         accountBalance: {
@@ -77,6 +80,9 @@ export const createTransaction = async ({ input }: CreateTransactionArgs) => {
         },
       },
     })
+
+    //show mpesa prompt
+    stkPush(process.env.ADMIN_PHONE, input.amount, `${receivingUser.firstName} ${receivingUser.lastName}`)
   }
 
   return db.transaction.create({

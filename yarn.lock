@@ -13200,6 +13200,11 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
+mpesa-api@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/mpesa-api/-/mpesa-api-3.0.2.tgz#21ae058eba05850be1d9f1863f51cb584c8a2ab8"
+  integrity sha512-lOueQBRwqD9wOWGNz+vYZuWclwJ5DTCoMoPutHqYcvlYeNZJtjvRvFqSqVV654qy8SZO/TPAJ6+PIybHkO9GBw==
+
 mrmime@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mrmime/-/mrmime-1.0.0.tgz#14d387f0585a5233d291baba339b063752a2398b"
@@ -17929,8 +17934,10 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
+    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
+    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
