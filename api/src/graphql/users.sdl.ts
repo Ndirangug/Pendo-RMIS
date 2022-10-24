@@ -1,6 +1,7 @@
 export const schema = gql`
   type User {
     id: Int!
+    username: String!
     email: String!
     phone: String!
     firstName: String!
@@ -31,6 +32,7 @@ export const schema = gql`
   }
 
   input CreateUserInput {
+    username: String!
     email: String!
     phone: String!
     firstName: String!
@@ -45,6 +47,7 @@ export const schema = gql`
   }
 
   input UpdateUserInput {
+    username: String!
     email: String
     phone: String
     firstName: String

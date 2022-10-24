@@ -9,6 +9,7 @@ import SectionAdminsCell from '../SectionAdminsCell/SectionAdminsCell'
 import RefugeesInSectionCell from '../RefugeesInSectionCell/RefugeesInSectionCell'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 import { CREATE_TRANSACTION } from 'src/graphql/mutations'
+import { sendEmail } from 'src/utils/sendEmail'
 
 const DisburseFundsForm = () => {
   const [amount, setAmount] = useState(0)
@@ -141,7 +142,10 @@ const DisburseFundsForm = () => {
                   : recepient.id
               }
             >
-              {recepient.firstName} {recepient.lastName}
+              {recepient.firstName} {recepient.lastName} -
+              {recepient.role === 'SECTION_ADMIN'
+                ? `Section ${recepient.section.code}`
+                : `Tent ${recepient.Tent.code}`}
             </MenuItem>
           ))}
         </TextField>

@@ -5,12 +5,15 @@ export const QUERY = gql`
   query FindCurrentUserQuery($id: Int!) {
     user(id: $id) {
       id
+      email
+      username
       firstName
       lastName
       role
       accountBalance
       section {
         id
+        code
       }
     }
   }

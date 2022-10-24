@@ -1,8 +1,8 @@
-import type { Prisma } from '@prisma/client'
+import type { Prisma, User, Refugee, Tent } from '@prisma/client'
 import type { ResolverArgs } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
-import { stkPush } from 'src/lib/mpesa'
+import { sendEmail } from 'src/lib/emailNotification'
 
 interface QueryTransactionsInput {
   adminId?: number
@@ -45,9 +45,16 @@ interface CreateTransactionArgs {
 }
 
 export const createTransaction = async ({ input }: CreateTransactionArgs) => {
+  let receivingRefugee: Refugee
+  let receivingTent: Tent
+  let adminSending
+  let sectionRecieving
+  let adminReceiving
+  let receivingAdminUser
+
   if (input.transactionType == 'ADMIN_TO_INDIVIDUAL') {
     //just subtarct from adminId
-    const adminSending = await db.user.update({
+    adminSending = await db.user.update({
       where: { id: input.adminId },
       data: {
         accountBalance: {
@@ -55,24 +62,36 @@ export const createTransaction = async ({ input }: CreateTransactionArgs) => {
         },
       },
     })
+
+    receivingRefugee = await db.refugee.findUnique({
+      where: { id: input.refugeeId },
+    })
+
+    receivingTent = await db.tent.findUnique({
+      where: { id: receivingRefugee.tentId },
+    })
   } else {
-    // admijn to section
+    // admin to section
     //subtratc from adminId
-    const adminSending = await db.user.update({
+    adminSending = await db.user.update({
       where: { id: input.adminId },
       data: {
         accountBalance: {
           decrement: input.amount,
         },
       },
+    })
+
+    sectionRecieving = await db.section.findFirst({
+      where: { id: input.sectionId },
     })
 
     //then  get admin of sectionId and add to him
-    const adminReceiving = await db.section
+    adminReceiving = await db.section
       .findFirst({ where: { id: input.sectionId } })
       .admin()
 
-    const receivingUser = await db.user.update({
+    receivingAdminUser = await db.user.update({
       where: { id: adminReceiving.id },
       data: {
         accountBalance: {
@@ -82,8 +101,30 @@ export const createTransaction = async ({ input }: CreateTransactionArgs) => {
     })
 
     //show mpesa prompt
-    stkPush(process.env.ADMIN_PHONE, input.amount, `${receivingUser.firstName} ${receivingUser.lastName}`)
+    //stkPush(process.env.ADMIN_PHONE, input.amount, `${receivingUser.firstName} ${receivingUser.lastName}`)
+    //notification to receoient
+    sendEmail('template_6xnx8in', {
+      amount: input.amount,
+      beneficiary_name: `${receivingAdminUser.firstName} ${receivingAdminUser.lastName}`,
+      time: new Date().toString(),
+      section: sectionRecieving.code,
+      balance: receivingAdminUser.accountBalance,
+      to: receivingAdminUser.email,
+    })
   }
+
+  //notificatuon to sender
+  sendEmail('template_wt5x0ka', {
+    sender_name: `${adminSending.firstName} ${adminSending.lastName}`,
+    amount: input.amount,
+    beneficiary_details:
+      input.transactionType === 'ADMIN_TO_SECTION'
+        ? `${receivingAdminUser.firstName} ${receivingAdminUser.lastName} - Section ${sectionRecieving.code} admin`
+        : `${receivingRefugee.firstName} ${receivingRefugee.lastName} of tent ${receivingTent.code}`,
+    time: new Date().toString(),
+    balance: adminSending.accountBalance,
+    to: adminSending.email,
+  })
 
   return db.transaction.create({
     data: input,

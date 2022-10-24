@@ -1,11 +1,12 @@
-import { Button, Menu, MenuItem } from '@mui/material'
+import { Button, Menu, MenuItem, Box } from '@mui/material'
 import { useAuth } from '@redwoodjs/auth'
-import { Person, KeyboardArrowDown } from '@mui/icons-material'
+import { Person, KeyboardArrowDown, Email } from '@mui/icons-material'
 import React, { useState } from 'react'
 import CurrentUserCell from 'src/components/CurrentUserCell/CurrentUserCell'
+import { FindCurrentUserQuery } from 'types/graphql'
 
 const UserInfoTile = () => {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({} as FindCurrentUserQuery)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,6 +34,12 @@ const UserInfoTile = () => {
           <p className="capitalize">
             {user.firstName} {user.lastName}
           </p>
+          -
+          {user.role === 'SECTION_ADMIN' ? (
+            <p className="capitalize">Section {user.section.code} Admin</p>
+          ) : (
+            <p>OVERALL CAMP ADMIN</p>
+          )}
           <KeyboardArrowDown />
         </div>
       </Button>
@@ -45,6 +52,11 @@ const UserInfoTile = () => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <Box sx={{ px: '1em', mb: '0.5em' }}>
+          <p>
+            <Email fontSize="xSmall" /> {user.email}
+          </p>
+        </Box>
         <MenuItem onClick={logOut}>Logout</MenuItem>
       </Menu>
     </div>
