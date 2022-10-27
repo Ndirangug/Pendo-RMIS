@@ -11,16 +11,19 @@ export const schema = gql`
     Section: Section
     sectionId: Int
     ref: String
+    donor: String
   }
 
   enum TransactionType {
     ADMIN_TO_SECTION
     ADMIN_TO_INDIVIDUAL
+    DONATION
   }
 
   type Query {
     transactions(adminId: Int, refugeeId: Int): [Transaction!]! @skipAuth #@requireAuth
     transaction(id: Int!): Transaction @skipAuth #@requireAuth
+    donations: [Transaction!]! @skipAuth #@requireAuth
   }
 
   input CreateTransactionInput {
@@ -29,6 +32,13 @@ export const schema = gql`
     refugeeId: Int
     adminId: Int
     sectionId: Int
+    donor: String
+  }
+
+  input ReceiveDonationInput {
+    amount: Int!
+    donor: String
+    adminId: Int
   }
 
   input UpdateTransactionInput {
@@ -44,5 +54,6 @@ export const schema = gql`
     updateTransaction(id: Int!, input: UpdateTransactionInput!): Transaction!
       @requireAuth
     deleteTransaction(id: Int!): Transaction! @requireAuth
+    receiveDonation(input: ReceiveDonationInput!): Transaction! @skipAuth
   }
 `

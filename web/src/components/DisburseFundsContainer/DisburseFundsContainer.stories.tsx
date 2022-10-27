@@ -1,7 +1,7 @@
-import DisburseFundsContainer from './DisburseFundsContainer'
+import FundsContainer from './FundsContainer'
 
 export const generated = () => {
-  return <DisburseFundsContainer />
+  return <FundsContainer />
 }
 
 export default { title: 'Components/DisburseFundsContainer' }

@@ -82,9 +82,11 @@ model Transaction {
   Section         Section?        @relation(fields: [sectionId], references: [id])
   sectionId       Int?
   ref             String          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  donor           String          @default("")
 }
 
 enum TransactionType {
   ADMIN_TO_SECTION
   ADMIN_TO_INDIVIDUAL
+  DONATION
 }

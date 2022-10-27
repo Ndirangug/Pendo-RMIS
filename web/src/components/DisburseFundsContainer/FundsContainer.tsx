@@ -2,6 +2,7 @@ import { Card, Box, Typography, Tabs, Tab } from '@mui/material'
 import DisburseFundsForm from '../DisburseFundsForm/DisburseFundsForm'
 import TransactionsCell from 'src/components/TransactionsCell/TransactionsCell'
 import { useAuth } from '@redwoodjs/auth'
+import ReceiveDonationForm from '../ReceiveDonationForm/ReceiveDonationForm'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -39,13 +40,15 @@ function a11yProps(index) {
   }
 }
 
-const DisburseFundsContainer = () => {
+const FundsContainer = () => {
   const [value, setValue] = React.useState(0)
   const { currentUser } = useAuth()
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  console.log('current user: ', currentUser)
 
   return (
     <Card className="flex flex-col justify-center items-center px-16 py-10 mt-10">
@@ -57,8 +60,15 @@ const DisburseFundsContainer = () => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Disburse" {...a11yProps(0)} />
-            <Tab label="History" {...a11yProps(1)} />
+            <Tab label="Disburse Funds" {...a11yProps(0)} />
+            <Tab label="Disbursement History" {...a11yProps(1)} />
+
+            {currentUser.id == 1 && (
+              <Tab label="Receive Donation" {...a11yProps(2)} />
+            )}
+            {currentUser.id == 1 && (
+              <Tab label="Donation History" {...a11yProps(3)} />
+            )}
           </Tabs>
         </Box>
 
@@ -68,9 +78,19 @@ const DisburseFundsContainer = () => {
         <TabPanel value={value} index={1}>
           <TransactionsCell adminId={currentUser.id} />
         </TabPanel>
+        <TabPanel value={value} index={2}>
+          <ReceiveDonationForm />
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <TransactionsCell
+            adminId={currentUser.id}
+            transactionType="DONATION"
+            showFromAndTo={false}
+          />
+        </TabPanel>
       </Box>
     </Card>
   )
 }
 
-export default DisburseFundsContainer
+export default FundsContainer

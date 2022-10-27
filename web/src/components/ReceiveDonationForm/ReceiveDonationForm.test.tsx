@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing/web'
 
-import FundsContainer from './FundsContainer'
+import ReceiveDonationForm from './ReceiveDonationForm'
 
-describe('DisburseFundsContainer', () => {
+describe('ReceiveDonationForm', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<FundsContainer />)
+      render(<ReceiveDonationForm />)
     }).not.toThrow()
   })
 })

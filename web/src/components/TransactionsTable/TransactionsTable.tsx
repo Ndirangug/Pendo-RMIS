@@ -1,14 +1,16 @@
 import type { CellSuccessProps } from '@redwoodjs/web'
-import type { TransactionsQuery } from 'types/graphql'
+import type { TransactionsQuery, TransactionType } from 'types/graphql'
 import { Card } from '@mui/material'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 
 interface TransactionsTableProps extends CellSuccessProps<TransactionsQuery> {
   showFromAndTo: boolean
+  transactionType: TransactionType
 }
 
 const TransactionsTable = ({
   transactions,
+  transactionType,
   showFromAndTo = true,
 }: TransactionsTableProps) => {
   const columns = [
@@ -33,9 +35,15 @@ const TransactionsTable = ({
     )
   }
 
-  const rows = transactions.map((transaction) => ({
+  if (transactionType === 'DONATION') {
+    columns.push({ field: 'donor', headerName: 'DONOR', width: 250 })
+  }
+
+  let rows = transactions.map((transaction) => ({
     id: transaction.id,
     amount: transaction.amount,
+    donor: transaction.donor,
+    transactionType: transaction.transactionType,
     date: new Intl.DateTimeFormat('en-US', {
       dateStyle: 'medium',
       timeStyle: 'medium',
@@ -45,8 +53,17 @@ const TransactionsTable = ({
     to:
       transaction.transactionType === 'ADMIN_TO_SECTION'
         ? `Section ${transaction.Section.code}`
-        : `${transaction.refugee.firstName} ${transaction.refugee.lastName}`,
+        : transaction.transactionType === 'ADMIN_TO_INDIVIDUAL'
+        ? `${transaction.refugee.firstName} ${transaction.refugee.lastName}`
+        : '',
   }))
+
+  if (transactionType === 'DONATION') {
+    console.log('rows on type donations: ', rows)
+    rows = rows.filter((row) => row.transactionType === 'DONATION')
+    console.log('rows on type donations after filter: ', rows)
+  }
+
   console.log('refugee')
   console.log(transactions[0])
   return (
@@ -62,6 +79,8 @@ const TransactionsTable = ({
             printOptions: {
               fileName: showFromAndTo
                 ? `Refugee Transactions`
+                : transactionType === 'DONATION'
+                ? 'Donations History'
                 : `${transactions[0].refugee.firstName} ${transactions[0].refugee.lastName} Transactions`,
             },
           },

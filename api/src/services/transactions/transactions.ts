@@ -34,6 +34,12 @@ export const transaction = ({ id }: Prisma.TransactionWhereUniqueInput) => {
   })
 }
 
+export const donations = () => {
+  return db.transaction.findMany({
+    where: { transactionType: 'DONATION' },
+  })
+}
+
 interface CreateTransactionInput extends Prisma.TransactionCreateInput {
   adminId?: number
   sectionId?: number
@@ -128,6 +134,30 @@ export const createTransaction = async ({ input }: CreateTransactionArgs) => {
 
   return db.transaction.create({
     data: input,
+  })
+}
+
+interface ReceiveDonationInput extends Prisma.TransactionCreateInput {
+  donor?: string
+  adminId?: number
+}
+
+interface ReceiveDonationArgs {
+  input: ReceiveDonationInput
+}
+
+export const receiveDonation = async ({ input }: ReceiveDonationArgs) => {
+  await db.user.update({
+    where: { id: input.adminId },
+    data: {
+      accountBalance: {
+        increment: input.amount,
+      },
+    },
+  })
+
+  return db.transaction.create({
+    data: { transactionType: 'DONATION', ...input },
   })
 }
 

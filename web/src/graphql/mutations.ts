@@ -29,4 +29,16 @@ export const CREATE_TRANSACTION = gql`
     }
   }
 `
+
+export const RECEIVE_DONATION = gql`
+  mutation ReceiveDonationMutation(
+    $receiveDonationInput: ReceiveDonationInput!
+  ) {
+    receiveDonation(input: $receiveDonationInput) {
+      id
+      amount
+      transactionType
+    }
+  }
+`
 // ...
