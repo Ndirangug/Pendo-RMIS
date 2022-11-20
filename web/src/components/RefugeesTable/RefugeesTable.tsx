@@ -52,6 +52,16 @@ const RefugeesTable = ({ refugees }: CellSuccessProps<RefugeesQuery>) => {
       headerName: 'TENT',
       width: 120,
     },
+    {
+      field: 'code',
+      headerName: 'REFUGEE CODE',
+      width: 150,
+    },
+    {
+      field: 'country',
+      headerName: 'COUNTRY',
+      width: 150,
+    },
     { field: 'dateRegistered', headerName: 'Date Registered', width: 200 },
 
     {
@@ -75,6 +85,8 @@ const RefugeesTable = ({ refugees }: CellSuccessProps<RefugeesQuery>) => {
       dateStyle: 'medium',
     }).format(new Date(refugee.dateOfBirth)),
     sex: refugee.sex,
+    code: refugee.code,
+    country: refugee.country,
     section: refugee.Tent.Section.code,
     tent: refugee.Tent.code,
     dateRegistered: new Intl.DateTimeFormat('en-US', {

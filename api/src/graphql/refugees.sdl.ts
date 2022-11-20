@@ -6,6 +6,8 @@ export const schema = gql`
     firstName: String!
     lastName: String!
     photo: String!
+    code: String!
+    country: String!
     sex: Sex!
     dateOfBirth: DateTime!
     Tent: Tent
@@ -32,6 +34,8 @@ export const schema = gql`
     lastName: String!
     photo: String!
     sex: Sex!
+    code: String!
+    country: String!
     dateOfBirth: DateTime!
     tentId: Int
   }
@@ -41,6 +45,8 @@ export const schema = gql`
     phone: String
     firstName: String
     lastName: String
+    code: String!
+    country: String!
     photo: String
     sex: Sex
     dateOfBirth: DateTime
