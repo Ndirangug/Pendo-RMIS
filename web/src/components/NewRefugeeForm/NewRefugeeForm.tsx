@@ -37,7 +37,9 @@ const NewRefugeeForm = () => {
   useEffect(() => {
     const randomCode = Math.floor(Math.random() * 1000000000)
     const targetTent = tents.find((t) => t.id === tent)
-    refugeeCode.current = targetTent.code.substring(0, 2) + randomCode
+
+    if (targetTent)
+      refugeeCode.current = targetTent.code.substring(0, 2) + randomCode
 
     console.log('new refugee code', refugeeCode.current)
   }, [tent])
@@ -199,7 +201,9 @@ const NewRefugeeForm = () => {
         <TentsCell setTents={setTents} />
 
         <div className="profile-pic mb-8">
-          <Avatar sx={{ width: '10rem', height: '10rem' }}>H</Avatar>
+          <Avatar sx={{ width: '10rem', height: '10rem' }}>
+            {firstName[0]} {lastName[0]}
+          </Avatar>
         </div>
 
         <Box>{steps[activeStep]}</Box>
