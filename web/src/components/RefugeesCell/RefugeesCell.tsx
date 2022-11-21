@@ -12,6 +12,8 @@ export const QUERY = gql`
       dateOfBirth
       createdAt
       sex
+      code
+      country
       Tent {
         id
         code

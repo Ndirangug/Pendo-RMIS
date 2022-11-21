@@ -11,7 +11,7 @@ import { useMutation } from '@redwoodjs/web'
 import { margin } from '@mui/system'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { DatePicker } from '@mui/lab'
 import TentsCell from '../TentsCell/TentsCell'
 import { CREATE_REFUGEE } from 'src/graphql/mutations'
@@ -25,12 +25,24 @@ const NewRefugeeForm = () => {
   const [dateOfBirth, setDateOfBirth] = useState('')
   const [tent, setTent] = useState(1)
   const [tents, setTents] = useState([])
+  const [country, setCountry] = useState('')
+  const refugeeCode = useRef('')
 
   const [createRefugee, { loading, error }] = useMutation(CREATE_REFUGEE, {
     onCompleted: () => {
       toast.success('Created Refugee Succesfully!', { duration: 3000 })
     },
   })
+
+  useEffect(() => {
+    const randomCode = Math.floor(Math.random() * 1000000000)
+    const targetTent = tents.find((t) => t.id === tent)
+
+    if (targetTent)
+      refugeeCode.current = targetTent.code.substring(0, 2) + randomCode
+
+    console.log('new refugee code', refugeeCode.current)
+  }, [tent])
 
   const steps = [
     <>
@@ -48,6 +60,17 @@ const NewRefugeeForm = () => {
           label="Last Name"
           variant="outlined"
           onChange={(event) => setLastName(event.target.value)}
+        />
+      </div>
+    </>,
+    <>
+      <div>
+        <TextField
+          sx={{ margin: '6px 8px' }}
+          label="Country"
+          variant="outlined"
+          type="text"
+          onChange={(event) => setCountry(event.target.value)}
         />
       </div>
     </>,
@@ -125,6 +148,8 @@ const NewRefugeeForm = () => {
     setActiveStep(0)
     setTent(1)
     setPhone('')
+    setCountry('')
+    refugeeCode.current = ''
   }
 
   const registerRefugee = async () => {
@@ -139,6 +164,8 @@ const NewRefugeeForm = () => {
             sex,
             dateOfBirth,
             tentId: tent,
+            country,
+            code: refugeeCode.current,
             photo: '',
           },
         },
@@ -174,7 +201,9 @@ const NewRefugeeForm = () => {
         <TentsCell setTents={setTents} />
 
         <div className="profile-pic mb-8">
-          <Avatar sx={{ width: '10rem', height: '10rem' }}>H</Avatar>
+          <Avatar sx={{ width: '10rem', height: '10rem' }}>
+            {firstName[0]} {lastName[0]}
+          </Avatar>
         </div>
 
         <Box>{steps[activeStep]}</Box>

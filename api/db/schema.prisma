@@ -22,6 +22,8 @@ model Refugee {
   dateOfBirth DateTime      @default(now())
   Tent        Tent?         @relation(fields: [tentId], references: [id])
   tentId      Int?
+  country     String?       @default("counryxx")
+  code        String?       @default("codexx")
   Transaction Transaction[]
 }
 

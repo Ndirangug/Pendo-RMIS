@@ -6,6 +6,8 @@ export const CREATE_REFUGEE = gql`
       id
       firstName
       lastName
+      code
+      country
       Tent {
         id
         code
