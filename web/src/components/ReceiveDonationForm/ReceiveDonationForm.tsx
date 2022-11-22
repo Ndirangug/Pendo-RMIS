@@ -17,6 +17,7 @@ const ReceiveDonationForm = () => {
   // const [recepients, setRecepients] = useState([])
   const [user, setUser] = useState({})
   const [balance, setBalance] = useState(0)
+  const [phone, setPhone] = useState('')
   const [_, forceUpdate] = useReducer((x) => x + 1, 0)
 
   const [receiveDonation, { loading, error }] = useMutation(RECEIVE_DONATION, {
@@ -62,6 +63,7 @@ const ReceiveDonationForm = () => {
           amount,
           donor,
           adminId: currentUser.id,
+          phoneNumber: phone,
         },
       },
     })
@@ -118,11 +120,6 @@ const ReceiveDonationForm = () => {
           label="Donor"
           variant="outlined"
           onChange={(event) => setDonor(event.target.value)}
-          // SelectProps={{
-          //   multiple: true,
-          //   value: formState.selectedRecepients,
-          //   onChange: handleFieldChange,
-          // }}
         />
       </div>
       <LoadingButton

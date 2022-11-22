@@ -83,6 +83,7 @@ model Transaction {
   adminId         Int?
   Section         Section?        @relation(fields: [sectionId], references: [id])
   sectionId       Int?
+  phoneNumber     String?         @default("")
   ref             String          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   donor           String          @default("")
 }

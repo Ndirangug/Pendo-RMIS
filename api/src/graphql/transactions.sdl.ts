@@ -11,6 +11,7 @@ export const schema = gql`
     Section: Section
     sectionId: Int
     ref: String
+    phoneNumber: String
     donor: String
   }
 
@@ -39,6 +40,7 @@ export const schema = gql`
     amount: Int!
     donor: String
     adminId: Int
+    phoneNumber: String
   }
 
   input UpdateTransactionInput {
