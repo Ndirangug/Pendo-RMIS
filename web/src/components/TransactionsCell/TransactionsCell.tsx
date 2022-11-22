@@ -44,6 +44,7 @@ const tranactionsQuery = gql`
       createdAt
       ref
       donor
+      phoneNumber
     }
   }
 `
@@ -57,6 +58,7 @@ const donationsQuery = gql`
       amount
       createdAt
       ref
+      phoneNumber
     }
   }
 `

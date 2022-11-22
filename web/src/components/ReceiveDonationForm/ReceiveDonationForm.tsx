@@ -121,6 +121,13 @@ const ReceiveDonationForm = () => {
           variant="outlined"
           onChange={(event) => setDonor(event.target.value)}
         />
+        <TextField
+          value={phone}
+          sx={{ margin: '6px 8px' }}
+          label="Contact"
+          variant="outlined"
+          onChange={(event) => setPhone(event.target.value)}
+        />
       </div>
       <LoadingButton
         loading={loading}

@@ -36,7 +36,10 @@ const TransactionsTable = ({
   }
 
   if (transactionType === 'DONATION') {
-    columns.push({ field: 'donor', headerName: 'DONOR', width: 250 })
+    columns.push(
+      { field: 'donor', headerName: 'DONOR', width: 250 },
+      { field: 'phoneNumber', headerName: 'CONTACT', width: 250 }
+    )
   }
 
   let rows = transactions.map((transaction) => ({
@@ -49,6 +52,7 @@ const TransactionsTable = ({
       timeStyle: 'medium',
     }).format(new Date(transaction.createdAt)),
     ref: transaction.ref,
+    phoneNumber: transaction.phoneNumber,
     from: transaction.admin.firstName + ' ' + transaction.admin.lastName,
     to:
       transaction.transactionType === 'ADMIN_TO_SECTION'

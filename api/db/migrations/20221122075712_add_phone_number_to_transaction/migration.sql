@@ -5,10 +5,10 @@ CREATE TYPE "Sex" AS ENUM ('MALE', 'FEMALE');
 CREATE TYPE "Role" AS ENUM ('CAMP_ADMIN', 'SECTION_ADMIN');
 
 -- CreateEnum
-CREATE TYPE "TransactionType" AS ENUM ('ADMIN_TO_SECTION', 'ADMIN_TO_INDIVIDUAL');
+CREATE TYPE "TransactionType" AS ENUM ('ADMIN_TO_SECTION', 'ADMIN_TO_INDIVIDUAL', 'DONATION');
 
 -- CreateTable
-CREATE TABLE "Regugee" (
+CREATE TABLE "Refugee" (
     "id" SERIAL NOT NULL,
     "email" TEXT,
     "phone" TEXT,
@@ -16,10 +16,13 @@ CREATE TABLE "Regugee" (
     "lastName" TEXT NOT NULL,
     "photo" TEXT NOT NULL,
     "sex" "Sex" NOT NULL,
-    "dateOfBirh" TIMESTAMP(3) NOT NULL,
     "tentId" INTEGER,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "dateOfBirth" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "code" TEXT DEFAULT E'codexx',
+    "country" TEXT DEFAULT E'counryxx',
 
-    CONSTRAINT "Regugee_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Refugee_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -41,9 +44,9 @@ CREATE TABLE "Section" (
 );
 
 -- CreateTable
-CREATE TABLE "Admin" (
+CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "email" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
@@ -53,8 +56,10 @@ CREATE TABLE "Admin" (
     "salt" TEXT NOT NULL,
     "resetToken" TEXT,
     "resetTokenExpiresAt" TIMESTAMP(3),
+    "accountBalance" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "email" TEXT NOT NULL,
 
-    CONSTRAINT "Admin_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -63,9 +68,12 @@ CREATE TABLE "Transaction" (
     "amount" INTEGER NOT NULL,
     "transactionType" "TransactionType" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "regugeeId" INTEGER,
     "adminId" INTEGER,
     "sectionId" INTEGER,
+    "phoneNumber" TEXT DEFAULT E'',
+    "refugeeId" INTEGER,
+    "ref" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "donor" TEXT NOT NULL DEFAULT E'',
 
     CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")
 );
@@ -74,25 +82,28 @@ CREATE TABLE "Transaction" (
 CREATE UNIQUE INDEX "Section_adminId_key" ON "Section"("adminId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Admin_phone_key" ON "Admin"("phone");
+CREATE UNIQUE INDEX "User_phone_key" ON "User"("phone");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_username_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "Regugee" ADD CONSTRAINT "Regugee_tentId_fkey" FOREIGN KEY ("tentId") REFERENCES "Tent"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Refugee" ADD CONSTRAINT "Refugee_tentId_fkey" FOREIGN KEY ("tentId") REFERENCES "Tent"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Tent" ADD CONSTRAINT "Tent_sectionId_fkey" FOREIGN KEY ("sectionId") REFERENCES "Section"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Section" ADD CONSTRAINT "Section_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "Admin"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Section" ADD CONSTRAINT "Section_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_regugeeId_fkey" FOREIGN KEY ("regugeeId") REFERENCES "Regugee"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "Admin"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_refugeeId_fkey" FOREIGN KEY ("refugeeId") REFERENCES "Refugee"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_sectionId_fkey" FOREIGN KEY ("sectionId") REFERENCES "Section"("id") ON DELETE SET NULL ON UPDATE CASCADE;
