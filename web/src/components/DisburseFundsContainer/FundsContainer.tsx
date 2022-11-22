@@ -69,6 +69,7 @@ const FundsContainer = () => {
             {currentUser.id == 1 && (
               <Tab label="Donation History" {...a11yProps(3)} />
             )}
+            <Tab label="Help" {...a11yProps(4)} />
           </Tabs>
         </Box>
 
@@ -87,6 +88,9 @@ const FundsContainer = () => {
             transactionType="DONATION"
             showFromAndTo={false}
           />
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          <p>Helphelp</p>
         </TabPanel>
       </Box>
     </Card>

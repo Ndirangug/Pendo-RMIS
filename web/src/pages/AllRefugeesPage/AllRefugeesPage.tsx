@@ -7,9 +7,9 @@ import RefugeesCell from 'src/components/RefugeesCell/RefugeesCell'
 const AllRefugeesPage = () => {
   return (
     <>
-      <MetaTags title="AllRefugees" description="AllRefugees page" />
+      <MetaTags title="PendoRefugees" description="PendoRefugees page" />
 
-      <PageHeader title="All Refugees" />
+      <PageHeader title="Pendo Refugees" />
 
       <article className="page-content mt-10">
         <RefugeesCell />

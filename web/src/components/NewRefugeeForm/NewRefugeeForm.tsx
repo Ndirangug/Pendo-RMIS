@@ -27,6 +27,7 @@ const NewRefugeeForm = () => {
   const [tents, setTents] = useState([])
   const [country, setCountry] = useState('')
   const refugeeCode = useRef('')
+  const randomCode = useRef(Math.floor(Math.random() * 1000000000))
 
   const [createRefugee, { loading, error }] = useMutation(CREATE_REFUGEE, {
     onCompleted: () => {
@@ -35,14 +36,12 @@ const NewRefugeeForm = () => {
   })
 
   useEffect(() => {
-    const randomCode = Math.floor(Math.random() * 1000000000)
     const targetTent = tents.find((t) => t.id === tent)
 
-    if (targetTent)
-      refugeeCode.current = targetTent.code.substring(0, 2) + randomCode
+    if (targetTent) refugeeCode.current = targetTent.code + randomCode.current
 
     console.log('new refugee code', refugeeCode.current)
-  }, [tent])
+  }, [tent, tents])
 
   const steps = [
     <>
@@ -50,6 +49,7 @@ const NewRefugeeForm = () => {
         <TextField
           sx={{ margin: '6px 8px' }}
           label="First Name"
+          value={firstName}
           variant="outlined"
           onChange={(event) => {
             setFirstName(event.target.value)
@@ -59,6 +59,7 @@ const NewRefugeeForm = () => {
           sx={{ margin: '6px 8px' }}
           label="Last Name"
           variant="outlined"
+          value={lastName}
           onChange={(event) => setLastName(event.target.value)}
         />
       </div>
@@ -70,6 +71,7 @@ const NewRefugeeForm = () => {
           label="Country"
           variant="outlined"
           type="text"
+          value={country}
           onChange={(event) => setCountry(event.target.value)}
         />
       </div>
@@ -81,6 +83,7 @@ const NewRefugeeForm = () => {
           label="Phone"
           variant="outlined"
           type="phone"
+          value={phone}
           onChange={(event) => setPhone(event.target.value)}
         />
       </div>
@@ -95,12 +98,12 @@ const NewRefugeeForm = () => {
           variant="outlined"
           onChange={(event) => setSex(event.target.value)}
         >
-          <option key="MALE" value="MALE">
+          <MenuItem key="MALE" value="MALE">
             MALE
-          </option>
-          <option key="FEMALE" value="FEMALE">
+          </MenuItem>
+          <MenuItem key="FEMALE" value="FEMALE">
             FEMALE
-          </option>
+          </MenuItem>
         </TextField>
       </div>
     </>,
@@ -202,7 +205,8 @@ const NewRefugeeForm = () => {
 
         <div className="profile-pic mb-8">
           <Avatar sx={{ width: '10rem', height: '10rem' }}>
-            {firstName[0]} {lastName[0]}
+            {/* {firstName[0]} {lastName[0]} */}
+            AA
           </Avatar>
         </div>
 

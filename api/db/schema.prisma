@@ -1,14 +1,12 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = "native"
-}
-
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
 
 model Refugee {
   id          Int           @id @default(autoincrement())
@@ -17,59 +15,49 @@ model Refugee {
   firstName   String
   lastName    String
   photo       String
-  createdAt   DateTime      @default(now())
   sex         Sex
-  dateOfBirth DateTime      @default(now())
-  Tent        Tent?         @relation(fields: [tentId], references: [id])
   tentId      Int?
-  country     String?       @default("counryxx")
+  createdAt   DateTime      @default(now())
+  dateOfBirth DateTime      @default(now())
   code        String?       @default("codexx")
+  country     String?       @default("counryxx")
+  Tent        Tent?         @relation(fields: [tentId], references: [id])
   Transaction Transaction[]
-}
-
-enum Sex {
-  MALE
-  FEMALE
 }
 
 model Tent {
   id        Int       @id @default(autoincrement())
   code      String
-  refugees  Refugee[]
-  Section   Section?  @relation(fields: [sectionId], references: [id])
   sectionId Int?
+  Section   Section?  @relation(fields: [sectionId], references: [id])
+  refugees  Refugee[]
 }
 
 model Section {
   id          Int           @id @default(autoincrement())
   code        String
-  tens        Tent[]
-  admin       User          @relation(fields: [adminId], references: [id])
   adminId     Int           @unique
+  admin       User          @relation(fields: [adminId], references: [id])
+  tens        Tent[]
   Transaction Transaction[]
 }
 
 model User {
   id                  Int           @id @default(autoincrement())
-  username            String        @unique
-  email               String        @unique
+  username            String        @unique(map: "User_email_key")
   phone               String        @unique
   firstName           String
   lastName            String
   photo               String
-  accountBalance      Float         @default(0)
   role                Role          @default(SECTION_ADMIN)
-  hashedPassword      String // <─┐
-  salt                String // <─┼─ add these lines
-  resetToken          String? // <─┤,.......................
-  resetTokenExpiresAt DateTime? //
+  hashedPassword      String
+  salt                String
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+  accountBalance      Float         @default(0)
+  email               String        @unique(map: "User_username_key")
   section             Section?
   Transaction         Transaction[]
-}
-
-enum Role {
-  CAMP_ADMIN
-  SECTION_ADMIN
 }
 
 model Transaction {
@@ -77,15 +65,25 @@ model Transaction {
   amount          Int
   transactionType TransactionType
   createdAt       DateTime        @default(now())
-  refugee         Refugee?        @relation(fields: [refugeeId], references: [id])
-  refugeeId       Int?
-  admin           User?           @relation(fields: [adminId], references: [id])
   adminId         Int?
-  Section         Section?        @relation(fields: [sectionId], references: [id])
   sectionId       Int?
   phoneNumber     String?         @default("")
+  refugeeId       Int?
   ref             String          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   donor           String          @default("")
+  admin           User?           @relation(fields: [adminId], references: [id])
+  refugee         Refugee?        @relation(fields: [refugeeId], references: [id])
+  Section         Section?        @relation(fields: [sectionId], references: [id])
+}
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+enum Role {
+  CAMP_ADMIN
+  SECTION_ADMIN
 }
 
 enum TransactionType {
