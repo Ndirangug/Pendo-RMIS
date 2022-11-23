@@ -9,7 +9,7 @@ const AllRefugeesPage = () => {
     <>
       <MetaTags title="PendoRefugees" description="PendoRefugees page" />
 
-      <PageHeader title="Pendo Refugees" />
+      <PageHeader title="All Refugees" />
 
       <article className="page-content mt-10">
         <RefugeesCell />

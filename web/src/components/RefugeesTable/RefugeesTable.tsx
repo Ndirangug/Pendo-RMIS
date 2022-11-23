@@ -1,27 +1,32 @@
 //import MUIDataTable from 'mui-datatables'
-import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import {
+  DataGrid,
+  GridToolbar,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+  GridToolbarContainer,
+} from '@mui/x-data-grid'
 import type { RefugeesQuery } from 'types/graphql'
 import type { CellSuccessProps } from '@redwoodjs/web'
 import { Card, Box, IconButton, Drawer } from '@mui/material'
-import { Edit, History } from '@mui/icons-material'
-import React, { useState } from 'react'
+import { History } from '@mui/icons-material'
+import React, { useState, useEffect } from 'react'
 import RefugeeFundsAllocationHistory from 'src/components/RefugeeFundsAllocationHistory/RefugeeFundsAllocationHistory'
 import EditRefugeeProfile from 'src/components/EditRefugeeProfile/EditRefugeeProfile'
+
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarFilterButton />
+      <GridToolbarExport />
+      <Box sx={{ ml: '8em', fontWeight: 600 }}>Pendo Refugee Camp Refugees</Box>
+    </GridToolbarContainer>
+  )
+}
 
 const RefugeesTable = ({ refugees }: CellSuccessProps<RefugeesQuery>) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [drawerComponent, setDrawerComponent] = useState(<h1>drawer</h1>)
-
-  // const toggleDrawer = (anchor, open) => (event) => {
-  //   if (
-  //     event.type === 'keydown' &&
-  //     (event.key === 'Tab' || event.key === 'Shift')
-  //   ) {
-  //     return
-  //   }
-
-  //   setState({ ...state, [anchor]: open })
-  // }
 
   const openEditor = (refugee) => {
     console.log('open editor', refugee.id)
@@ -113,7 +118,13 @@ const RefugeesTable = ({ refugees }: CellSuccessProps<RefugeesQuery>) => {
           autoHeight
           rows={rows}
           columns={columns}
-          components={{ Toolbar: GridToolbar }}
+          components={{ Toolbar: CustomToolbar }}
+          componentsProps={{ toolbar: { printOptions: { hideHeader: true } } }}
+          sx={{
+            '@media print': {
+              body: { backgroundColor: 'rgba(0, 0, 0, 0.87)' },
+            },
+          }}
         />
       </Card>
     </>

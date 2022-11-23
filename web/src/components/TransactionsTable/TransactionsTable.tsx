@@ -1,7 +1,13 @@
 import type { CellSuccessProps } from '@redwoodjs/web'
 import type { TransactionsQuery, TransactionType } from 'types/graphql'
-import { Card } from '@mui/material'
-import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import { Card, Box } from '@mui/material'
+import {
+  DataGrid,
+  GridToolbar,
+  GridToolbarContainer,
+  GridToolbarFilterButton,
+  GridToolbarExport,
+} from '@mui/x-data-grid'
 
 interface TransactionsTableProps extends CellSuccessProps<TransactionsQuery> {
   showFromAndTo: boolean
@@ -23,6 +29,19 @@ const TransactionsTable = ({
       width: 120,
     },
   ]
+
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarFilterButton />
+        <GridToolbarExport />
+        <Box sx={{ ml: '8em', fontWeight: 600 }}>
+          Pendo Refugee Camp -{' '}
+          {transactionType === 'DONATION' ? 'Donations' : 'Disbursements'}
+        </Box>
+      </GridToolbarContainer>
+    )
+  }
 
   if (showFromAndTo) {
     columns.push(
@@ -77,7 +96,7 @@ const TransactionsTable = ({
         autoHeight
         rows={rows}
         columns={columns}
-        components={{ Toolbar: GridToolbar }}
+        components={{ Toolbar: CustomToolbar }}
         componentProps={{
           toolbar: {
             printOptions: {
